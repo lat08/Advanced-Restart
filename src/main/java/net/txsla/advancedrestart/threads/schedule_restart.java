@@ -1,4 +1,5 @@
 package net.txsla.advancedrestart.threads;
+import net.txsla.advancedrestart.RestartWarningManager;
 import net.txsla.advancedrestart.config;
 import net.txsla.advancedrestart.format;
 import org.bukkit.Bukkit;
@@ -68,44 +69,8 @@ public class schedule_restart {
             if (config.debug) System.out.println(e);
         }
 
-        //minuteWarn
-        if (config.restartWarning_minuteWarn_enabled)
-        {
-            if (config.restartWarning_minuteWarn_countdown) {
-                stop_server.send_message_and_sleep_recursively(
-                        60000,
-                        config.restartWarning_minuteWarn_minutes,
-                        config.restartWarning_minuteWarn_message
-                );
-            }
-            else {
-                try {
-                    stop_server.send_message_and_sleep(
-                            config.restartWarning_minuteWarn_minutes * 60000,
-                            config.restartWarning_minuteWarn_message.replaceAll("%M", "" + config.restartWarning_minuteWarn_minutes)
-                    );
-                } catch (Exception e) {if (config.debug) System.out.println(e);}
-            }
-        }
-        //secondsWarn
-        if (config.restartWarning_secondsWarn_enabled)
-        {
-            if (config.restartWarning_secondsWarn_countdown) {
-                stop_server.send_message_and_sleep_recursively(
-                        1000,
-                        config.restartWarning_secondsWarn_seconds,
-                        config.restartWarning_secondsWarn_message
-                        );
-            }
-            else {
-                try {
-                    stop_server.send_message_and_sleep(
-                            config.restartWarning_secondsWarn_seconds * 1000,
-                            config.restartWarning_secondsWarn_message.replaceAll("%S", "" + config.restartWarning_secondsWarn_seconds)
-                    );
-                } catch (Exception e) {if (config.debug) System.out.println(e);}
-            }
-        }
+        // Use new warning system
+        RestartWarningManager.executeWarningSequence();
 
         stop_server.shutdown();
     }

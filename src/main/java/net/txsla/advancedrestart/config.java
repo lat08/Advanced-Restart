@@ -28,15 +28,26 @@ public class config {
             periodicRestart_duration = plugin.getConfig().getDouble("periodicRestart.duration");
             periodicRestart_message = plugin.getConfig().getString("periodicRestart.message");
 
-            restartWarning_secondsWarn_enabled = plugin.getConfig().getBoolean("restartWarning.secondsWarn.enabled");
-            restartWarning_secondsWarn_seconds = plugin.getConfig().getInt("restartWarning.secondsWarn.seconds");
-            restartWarning_secondsWarn_countdown = plugin.getConfig().getBoolean("restartWarning.secondsWarn.countdown");
-            restartWarning_secondsWarn_message = plugin.getConfig().getString("restartWarning.secondsWarn.message");
-
-            restartWarning_minuteWarn_enabled = plugin.getConfig().getBoolean("restartWarning.minuteWarn.enabled");
-            restartWarning_minuteWarn_minutes = plugin.getConfig().getInt("restartWarning.minuteWarn.minutes");
-            restartWarning_minuteWarn_countdown = plugin.getConfig().getBoolean("restartWarning.minuteWarn.countdown");
-            restartWarning_minuteWarn_message = plugin.getConfig().getString("restartWarning.minuteWarn.message");
+            restartWarning_enabled = plugin.getConfig().getBoolean("restartWarning.enabled");
+            restartWarning_totalWarningTime = plugin.getConfig().getInt("restartWarning.totalWarningTime");
+            
+            // Parse warning intervals
+            restartWarning_intervals = new ArrayList<>();
+            List<String> intervalStrings = plugin.getConfig().getStringList("restartWarning.intervals");
+            for (String intervalStr : intervalStrings) {
+                try {
+                    WarningInterval interval = new WarningInterval(intervalStr);
+                    restartWarning_intervals.add(interval);
+                    if (debug) {
+                        System.out.println("[Config] Loaded warning interval: " + interval.getOriginalTimeString() + " (" + interval.getTimeInSeconds() + "s)");
+                    }
+                } catch (IllegalArgumentException e) {
+                    System.out.println("[Config] ERROR parsing interval '" + intervalStr + "': " + e.getMessage());
+                }
+            }
+            if (debug) {
+                System.out.println("[Config] Loaded " + restartWarning_intervals.size() + " warning intervals");
+            }
 
             inactiveRestart_enabled = plugin.getConfig().getBoolean("inactiveRestart.enabled");
             inactiveRestart_timer = plugin.getConfig().getInt("inactiveRestart.timer");
@@ -80,15 +91,9 @@ public class config {
     public static double periodicRestart_duration;
     public static String periodicRestart_message;
 
-    public static boolean restartWarning_secondsWarn_enabled;
-    public static int restartWarning_secondsWarn_seconds;
-    public static boolean restartWarning_secondsWarn_countdown;
-    public static String restartWarning_secondsWarn_message;
-
-    public static boolean restartWarning_minuteWarn_enabled;
-    public static int restartWarning_minuteWarn_minutes;
-    public static boolean restartWarning_minuteWarn_countdown;
-    public static String restartWarning_minuteWarn_message;
+    public static boolean restartWarning_enabled;
+    public static int restartWarning_totalWarningTime;
+    public static List<WarningInterval> restartWarning_intervals;
 
     public static boolean inactiveRestart_enabled;
     public static double inactiveRestart_timer;

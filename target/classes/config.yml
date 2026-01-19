@@ -24,18 +24,41 @@ periodicRestart:
 # Sets a warning period before restart
 # Only applies to periodicRestart and scheduledRestart
 restartWarning:
-  # Sends a message x seconds before the server restarts
-  secondsWarn:
-    enabled: true
-    seconds: 5
-    countdown: true # send the message every second?
-    message: '<red>Server restarting in %S seconds!</red>'
-  # Sends a message x minutes before the server restarts
-  minuteWarn:
-    enabled: false
-    minutes: 5
-    countdown: true # send the message every minute?
-    message: '<green>Server restarting in %M minutes!</green>'
+  enabled: true
+  
+  # Total warning period (must be >= your longest interval)
+  totalWarningTime: 1800  # 30 minutes in seconds
+  
+  # Warning intervals (time:message format)
+  # Supported formats: 30m, 15m, 10m, 5m, 1m, 30s, 15s, 10s, 5s, 3s, 2s, 1s
+  intervals:
+    # 30 minutes warning
+    - '30m:<yellow><b>(!)</b> Server will restart in 30 minutes!</yellow><newline><gray>You''ll be automatically sent back to Survival when it''s back online!</gray>'
+    
+    # 15 minutes warning
+    - '15m:<yellow><b>(!)</b> Server will restart in 15 minutes!</yellow><newline><gray>You''ll be automatically sent back to Survival when it''s back online!</gray>'
+    
+    # 10 minutes warning
+    - '10m:<yellow><b>(!)</b> Server will restart in 10 minutes!</yellow><newline><gray>You''ll be automatically sent back to Survival when it''s back online!</gray>'
+    
+    # 5 minutes warning
+    - '5m:<yellow><b>(!)</b> Server will restart in 5 minutes!</yellow><newline><gray>You''ll be automatically sent back to Survival when it''s back online!</gray>'
+    
+    # 1 minute warning
+    - '1m:<yellow><b>(!)</b> Server will restart in 1 MINUTE!</yellow><newline><gray>You''ll be automatically sent back to Survival when it''s back online!</gray>'
+    
+    # 30 seconds warning
+    - '30s:<yellow><b>(!)</b> Server restarting in 30 SECONDS!</yellow><newline><gray>You''ll be automatically sent back to Survival when it''s back online!</gray>'
+    
+    # 15 seconds warning
+    - '15s:<yellow><b>(!)</b> Server restarting in 15 SECONDS!</yellow><newline><gray>You''ll be automatically sent back to Survival when it''s back online!</gray>'
+    
+    # Final countdown (10, 5, 3, 2, 1)
+    - '10s:<yellow><b>(!)</b> Restarting in 10 seconds!</yellow><newline><gray>You''ll be automatically sent back to Survival when it''s back online!</gray>'
+    - '5s:<yellow><b>(!)</b> Restarting in 5 seconds!</yellow><newline><gray>You''ll be automatically sent back to Survival when it''s back online!</gray>'
+    - '3s:<yellow><b>(!)</b> Restarting in 3 seconds!</yellow><newline><gray>You''ll be automatically sent back to Survival when it''s back online!</gray>'
+    - '2s:<yellow><b>(!)</b> Restarting in 2 seconds!</yellow><newline><gray>You''ll be automatically sent back to Survival when it''s back online!</gray>'
+    - '1s:<yellow><b>(!)</b> Restarting in 1 second!</yellow><newline><gray>You''ll be automatically sent back to Survival when it''s back online!</gray>'
 
 # Restarts server when there are no players online
 # Timer cycles from first player join
